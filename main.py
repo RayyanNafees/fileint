@@ -10,6 +10,9 @@ BYTE_CONST = 2.408116385911179
 
 app = Flask(__name__)
 
+@app.route('/')
+def hello():
+    return {'hello': 'world'}
 
 @app.route("/file2int", methods=["POST"])
 def file2int():
