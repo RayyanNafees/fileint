@@ -1,4 +1,4 @@
-from flask import Flask, request, send_file
+from flask import Flask, request, send_file, render_template
 import math
 from io import BytesIO
 import base64
@@ -8,11 +8,18 @@ sys.set_int_max_str_digits(0)
 
 BYTE_CONST = 2.408116385911179
 
-app = Flask(__name__)
+app = Flask(__name__,
+            template_folder='client/dist',
+            static_folder='client/dist/assets',
+            static_url_path='/assets')
 
 @app.route('/')
-def hello():
-    return {'hello': 'world'}
+def index():
+    return render_template('index.html')
+
+@app.route('/<path:path>')
+def assets(path):
+    return app.send_static_file('client/dist/'+path)
 
 @app.route("/file2int", methods=["POST"])
 def file2int():
